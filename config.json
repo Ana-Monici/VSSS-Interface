@@ -1,0 +1,8 @@
+{
+    "network" : {
+        "host_ip": "localhost",
+        "api_address": "127.0.0.1",
+        "api_port" : 43211,
+        "api_recv_port": 43210
+    }
+}
