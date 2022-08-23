@@ -47,7 +47,6 @@ class Interface():
     
     def update(self):
         self.api.send_data(self.match)
-        self.match.update()
         # self.match.update()
 
 interface = Interface(config_file=args.config_file)

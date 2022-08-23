@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 import game
 from field_graphics.field import Field
 import math
@@ -9,9 +9,14 @@ class Canvas(QtWidgets.QLabel):
     def __init__(self, interface):
         super().__init__()
         self.interface = interface
-        # self.category = self.interface.match.category
-        self.category = "5v5"
-        print(self.category)
+        fps = 60
+        self.interval = 1000/fps # interval between frames in miliseconds
+        timer = QTimer(self, interval = self.interval, timeout = self.paintCanvas)
+        timer.start(self.interval)
+        self.paintCanvas()
+    
+    def paintCanvas(self):
+        self.category = self.interface.match.category
         self.field = Field(self.category)
         self.scale = 3
         if self.category == "5v5":
@@ -25,16 +30,12 @@ class Canvas(QtWidgets.QLabel):
         pixmap = QtGui.QPixmap(self.field_w + self.border * 2, self.field_h + self.border * 2)
         self.setPixmap(pixmap)
         self.pen_color = QtGui.QColor('white')
-
         painter = QtGui.QPainter(self.pixmap())
         painter.setRenderHints(painter.Antialiasing)
         self.draw_field(painter)
-        
         self.draw_ball(painter)
         self.draw_robots(painter)
-
         painter.end()
-        self.update()
     
     def draw_field(self, painter):
         p = painter.pen()
@@ -97,11 +98,10 @@ class Canvas(QtWidgets.QLabel):
         brush.setStyle(Qt.SolidPattern)
         painter.setBrush(brush)
 
-        b_x = self.interface.match.ball.x
-        b_y = self.interface.match.ball.y
+        b_x = self.meter_to_cm(self.interface.match.ball.x) * self.scale
+        b_y = self.meter_to_cm(self.interface.match.ball.y) * self.scale
         radius = self.interface.match.ball.r * self.scale
         painter.drawEllipse(b_x - radius, b_y - radius, radius*2, radius*2)
-        # painter.drawEllipse(self.field_w/2 - radius, self.field_h/2 - radius, radius*2, radius*2)
 
         painter.restore()
     
@@ -181,7 +181,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, interface):
         super().__init__()
         self.interface = interface
-        # print(self.interface.match.category)
+
+        # self.toolbar = 
 
         self.canvas = Canvas(interface)
 
@@ -191,8 +192,3 @@ class MainWindow(QtWidgets.QMainWindow):
         l.addWidget(self.canvas)
 
         self.setCentralWidget(w)
-
-# app = QtWidgets.QApplication(sys.argv)
-# window = MainWindow()
-# window.show()
-# app.exec_()

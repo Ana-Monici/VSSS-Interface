@@ -36,7 +36,7 @@ class Api_recv(threading.Thread):
             data, origem = self.obj_socket.recvfrom(self.buffer_size)
             decoded_data = json.loads(data.decode())
             # Feedback commands from socket (e.g. an interface)
-            print(decoded_data)
+            # print(decoded_data)
 
             # coach_name = decoded_data.get('COACH_NAME')
 
@@ -45,6 +45,7 @@ class Api_recv(threading.Thread):
             if team_color != self.match.team_color:
                 # self.match.restart(team_color)
                 self.match.team_color = team_color
+                self.match.update()
             
             if team_color == 'blue':
                 opposites_color = 'yellow'
@@ -88,10 +89,8 @@ class Api_recv(threading.Thread):
             
             # Stop game and game on
             game_status = decoded_data.get('GAME_STATUS')
-            print(game_status)
             if game_status != self.match.game_status:
                 self.match.game_status = game_status
-            print(self.match.game_status)
 
             # Change team side
             team_side = decoded_data.get('TEAM_SIDE')
