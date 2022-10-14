@@ -304,8 +304,10 @@ class MainWindow(QtWidgets.QMainWindow):
     def change_team_color(self):
         if self.interface.match.team_color == "blue":
             self.interface.match.team_color = "yellow"
+            self.interface.match.opposite_team_color = "blue"
         else:
             self.interface.match.team_color = "blue"
+            self.interface.match.opposite_team_color = "yellow"
     
     def change_team_side(self):
         if self.interface.match.team_side == "left":
