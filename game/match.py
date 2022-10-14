@@ -24,6 +24,8 @@ class Match():
         self.ball = game.Ball()
         self.robots = []
         self.opposites = []
+
+        # self.start()
     
     def start(self):
         self.opposites = [
