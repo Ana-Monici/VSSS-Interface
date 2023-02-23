@@ -196,13 +196,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.game_status_buttons(buttons)
         l.addLayout(buttons)
 
+        # Adding fault positioning buttons
+
         # Adding the robot attributes buttons
-        buttons = QtWidgets.QHBoxLayout()
-        self.blue_robot_buttons(buttons)
-        l.addLayout(buttons)
-        buttons = QtWidgets.QHBoxLayout()
-        self.yellow_robot_buttons(buttons)
-        l.addLayout(buttons)
+        # buttons = QtWidgets.QHBoxLayout()
+        # self.blue_robot_buttons(buttons)
+        # l.addLayout(buttons)
+        # buttons = QtWidgets.QHBoxLayout()
+        # self.yellow_robot_buttons(buttons)
+        # l.addLayout(buttons)
 
         self.canvas = Canvas(interface)
         l.addWidget(self.canvas)
@@ -235,64 +237,67 @@ class MainWindow(QtWidgets.QMainWindow):
         b.clicked.connect(self.change_team_side)
         layout.addWidget(b)
     
-    def blue_robot_buttons(self, layout):
-        text1 = QtWidgets.QLabel("Change blue robots ids:    ")
-        layout.addWidget(text1)
+    # def blue_robot_buttons(self, layout):
+    #     text1 = QtWidgets.QLabel("Change blue robots ids:    ")
+    #     layout.addWidget(text1)
         
-        self.blue_r0 = QtWidgets.QLineEdit(self)
-        self.blue_r0.setFixedWidth(50)
-        layout.addWidget(self.blue_r0)
+    #     self.blue_r0 = QtWidgets.QLineEdit(self)
+    #     self.blue_r0.setFixedWidth(50)
+    #     layout.addWidget(self.blue_r0)
 
-        self.blue_r1 = QtWidgets.QLineEdit(self)
-        self.blue_r1.setFixedWidth(50)
-        layout.addWidget(self.blue_r1)
+    #     self.blue_r1 = QtWidgets.QLineEdit(self)
+    #     self.blue_r1.setFixedWidth(50)
+    #     layout.addWidget(self.blue_r1)
 
-        self.blue_r2 = QtWidgets.QLineEdit(self)
-        self.blue_r2.setFixedWidth(50)
-        layout.addWidget(self.blue_r2)
+    #     self.blue_r2 = QtWidgets.QLineEdit(self)
+    #     self.blue_r2.setFixedWidth(50)
+    #     layout.addWidget(self.blue_r2)
 
-        self.blue_r3 = QtWidgets.QLineEdit(self)
-        self.blue_r3.setFixedWidth(50)
-        layout.addWidget(self.blue_r3)
+    #     self.blue_r3 = QtWidgets.QLineEdit(self)
+    #     self.blue_r3.setFixedWidth(50)
+    #     layout.addWidget(self.blue_r3)
 
-        self.blue_r4 = QtWidgets.QLineEdit(self)
-        self.blue_r4.setFixedWidth(50)
-        layout.addWidget(self.blue_r4)
+    #     self.blue_r4 = QtWidgets.QLineEdit(self)
+    #     self.blue_r4.setFixedWidth(50)
+    #     layout.addWidget(self.blue_r4)
 
-        b = QtWidgets.QPushButton('Submit', self)
-        b.clicked.connect(self.change_blue_ids)
-        layout.addWidget(b)
+    #     b = QtWidgets.QPushButton('Submit', self)
+    #     b.clicked.connect(self.change_blue_ids)
+    #     layout.addWidget(b)
     
-    def yellow_robot_buttons(self, layout):
-        text1 = QtWidgets.QLabel("Change yellow robots ids:")
-        layout.addWidget(text1)
+    # def yellow_robot_buttons(self, layout):
+    #     text1 = QtWidgets.QLabel("Change yellow robots ids:")
+    #     layout.addWidget(text1)
         
-        self.yellow_r0 = QtWidgets.QLineEdit(self)
-        self.yellow_r0.setFixedWidth(50)
-        layout.addWidget(self.yellow_r0)
+    #     self.yellow_r0 = QtWidgets.QLineEdit(self)
+    #     self.yellow_r0.setFixedWidth(50)
+    #     layout.addWidget(self.yellow_r0)
 
-        self.yellow_r1 = QtWidgets.QLineEdit(self)
-        self.yellow_r1.setFixedWidth(50)
-        layout.addWidget(self.yellow_r1)
+    #     self.yellow_r1 = QtWidgets.QLineEdit(self)
+    #     self.yellow_r1.setFixedWidth(50)
+    #     layout.addWidget(self.yellow_r1)
 
-        self.yellow_r2 = QtWidgets.QLineEdit(self)
-        self.yellow_r2.setFixedWidth(50)
-        layout.addWidget(self.yellow_r2)
+    #     self.yellow_r2 = QtWidgets.QLineEdit(self)
+    #     self.yellow_r2.setFixedWidth(50)
+    #     layout.addWidget(self.yellow_r2)
 
-        self.yellow_r3 = QtWidgets.QLineEdit(self)
-        self.yellow_r3.setFixedWidth(50)
-        layout.addWidget(self.yellow_r3)
+    #     self.yellow_r3 = QtWidgets.QLineEdit(self)
+    #     self.yellow_r3.setFixedWidth(50)
+    #     layout.addWidget(self.yellow_r3)
 
-        self.yellow_r4 = QtWidgets.QLineEdit(self)
-        self.yellow_r4.setFixedWidth(50)
-        layout.addWidget(self.yellow_r4)
+    #     self.yellow_r4 = QtWidgets.QLineEdit(self)
+    #     self.yellow_r4.setFixedWidth(50)
+    #     layout.addWidget(self.yellow_r4)
 
-        b = QtWidgets.QPushButton('Submit', self)
-        b.clicked.connect(self.change_yellow_ids)
-        layout.addWidget(b)
+    #     b = QtWidgets.QPushButton('Submit', self)
+    #     b.clicked.connect(self.change_yellow_ids)
+    #     layout.addWidget(b)
     
     def start_game(self):
+        status = "GAME_ON"
+        self.interface.api.send_game_status(self.interface.match, status)
         self.interface.match.game_status = "GAME_ON"
+        print("START")
     
     def halt_game(self):
         self.interface.match.game_status = "HALT"
@@ -315,52 +320,52 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.interface.match.team_side = "left"
 
-    def change_blue_ids(self):
-        id_list = [self.blue_r0.text(),
-                    self.blue_r1.text(),
-                    self.blue_r2.text(),
-                    self.blue_r3.text(),
-                    self.blue_r4.text()]
+    # def change_blue_ids(self):
+    #     id_list = [self.blue_r0.text(),
+    #                 self.blue_r1.text(),
+    #                 self.blue_r2.text(),
+    #                 self.blue_r3.text(),
+    #                 self.blue_r4.text()]
         
-        if self.interface.match.team_color == "blue":
-            neon_team = True
-        else:
-            neon_team = False
+    #     if self.interface.match.team_color == "blue":
+    #         neon_team = True
+    #     else:
+    #         neon_team = False
         
-        aux = 0
-        for id in id_list:
-            if id == "":
-                pass
-            elif neon_team:
-                if aux+1 <= len(self.interface.match.robots):
-                    self.interface.match.robots[aux].robot_id = id
-                aux = aux + 1
-            else:
-                if aux+1 <= len(self.interface.match.opposites):
-                    self.interface.match.opposites[aux].robot_id = id
-                aux = aux + 1
+    #     aux = 0
+    #     for id in id_list:
+    #         if id == "":
+    #             pass
+    #         elif neon_team:
+    #             if aux+1 <= len(self.interface.match.robots):
+    #                 self.interface.match.robots[aux].robot_id = id
+    #             aux = aux + 1
+    #         else:
+    #             if aux+1 <= len(self.interface.match.opposites):
+    #                 self.interface.match.opposites[aux].robot_id = id
+    #             aux = aux + 1
     
-    def change_yellow_ids(self):
-        id_list = [self.yellow_r0.text(),
-                    self.yellow_r1.text(),
-                    self.yellow_r2.text(),
-                    self.yellow_r3.text(),
-                    self.yellow_r4.text()]
+    # def change_yellow_ids(self):
+    #     id_list = [self.yellow_r0.text(),
+    #                 self.yellow_r1.text(),
+    #                 self.yellow_r2.text(),
+    #                 self.yellow_r3.text(),
+    #                 self.yellow_r4.text()]
         
-        if self.interface.match.team_color == "blue":
-            neon_team = False
-        else:
-            neon_team = True
+    #     if self.interface.match.team_color == "blue":
+    #         neon_team = False
+    #     else:
+    #         neon_team = True
         
-        aux = 0
-        for id in id_list:
-            if id == "":
-                pass
-            elif neon_team:
-                if aux+1 <= len(self.interface.match.robots):
-                    self.interface.match.robots[aux].robot_id = id
-                aux = aux + 1
-            else:
-                if aux+1 <= len(self.interface.match.opposites):
-                    self.interface.match.opposites[aux].robot_id = id
-                aux = aux + 1
+    #     aux = 0
+    #     for id in id_list:
+    #         if id == "":
+    #             pass
+    #         elif neon_team:
+    #             if aux+1 <= len(self.interface.match.robots):
+    #                 self.interface.match.robots[aux].robot_id = id
+    #             aux = aux + 1
+    #         else:
+    #             if aux+1 <= len(self.interface.match.opposites):
+    #                 self.interface.match.opposites[aux].robot_id = id
+    #             aux = aux + 1

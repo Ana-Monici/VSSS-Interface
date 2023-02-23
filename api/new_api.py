@@ -56,3 +56,15 @@ class Api(metaclass=SingletonMeta):
         })
         msg = json.dumps(data_dict)
         self.obj_socket.sendto(msg.encode(), (self.address, self.port))
+        
+    def send_game_status(self, obj, status):
+        data_dict = dict({
+            'TEAM_COLOR' :  obj.team_color,
+            'GAME_STATUS' : status,
+            'TEAM_SIDE' : obj.team_side,
+            'TEAM_ROBOTS_POS' : [{f"{robot.robot_id}": (robot.x, robot.y, robot.theta)} for robot in obj.robots],
+            'OPPOSITE_ROBOTS_POS' : [{f"{robot.robot_id}": (robot.x, robot.y, robot.theta)} for robot in obj.opposites]
+        })
+        msg = json.dumps(data_dict)
+        self.obj_socket.sendto(msg.encode(), (self.address, self.port))
+        # print(msg)
