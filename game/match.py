@@ -37,12 +37,9 @@ class Match():
         ]
 
     # def update(self, team_color, coach_name):
-    # def update(self):
     #     self.team_color = team_color
-        # print("\n\nTESTE\n")
     #     self.opposite_team_color = 'yellow' if self.team_color == 'blue' else 'blue'
-
-        # self.coach_name = coach_name
+    #     self.coach_name = coach_name
 
     def set_game_status(self, status):
         self.game_status = status

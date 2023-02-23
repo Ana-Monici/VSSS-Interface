@@ -53,8 +53,8 @@ interface = Interface(config_file=args.config_file)
 
 window = Window(interface)
 
-while True:
-    interface.update()
+# while True:
+#     interface.update()
 
 # app = QtWidgets.QApplication(sys.argv)
 # window = MainWindow(interface)

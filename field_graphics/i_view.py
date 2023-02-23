@@ -224,7 +224,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         b = InterfaceButton(100, 30)
         b.setText("STOP")
-        b.clicked.connect(self.halt_game)
+        b.clicked.connect(self.stop_game)
         layout.addWidget(b)
 
         b = InterfaceButton(100, 30)
@@ -296,7 +296,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def start_game(self):
         status = "GAME_ON"
         self.interface.api.send_game_status(self.interface.match, status)
-        self.interface.match.game_status = "GAME_ON"
+        # self.interface.match.game_status = "GAME_ON"
         print("START")
     
     def halt_game(self):
@@ -304,7 +304,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.interface.match.game_status = 7
     
     def stop_game(self):
-        self.interface.match.game_status = "STOP"
+        # self.interface.match.game_status = "STOP"
+        status = "stop"
+        self.interface.api.send_game_status(self.interface.match, status)
+        # self.interface.match.game_status = "stop"
+        print("STOP")
     
     def change_team_color(self):
         if self.interface.match.team_color == "blue":
