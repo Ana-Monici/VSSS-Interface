@@ -19,7 +19,7 @@ class Match():
 
         self.opposite_team_color = 'yellow' if self.team_color == 'blue' else 'blue'
 
-        self.game_status = 'stop'
+        self.game_status = 'STOP'
 
         self.ball = game.Ball()
         self.robots = []
@@ -36,10 +36,10 @@ class Match():
             game.Robot(i, 0, 0, 0, self.team_color) for i in range(self.n_robots)
         ]
 
-    # def update(self, team_color, coach_name):
-    #     self.team_color = team_color
-    #     self.opposite_team_color = 'yellow' if self.team_color == 'blue' else 'blue'
-    #     self.coach_name = coach_name
+    def update(self, team_color): # coach_name
+        self.team_color = team_color
+        self.opposite_team_color = 'yellow' if self.team_color == 'blue' else 'blue'
+        # self.coach_name = coach_name
 
     def set_game_status(self, status):
         self.game_status = status

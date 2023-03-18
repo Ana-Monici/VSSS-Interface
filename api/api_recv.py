@@ -43,9 +43,8 @@ class Api_recv(threading.Thread):
             team_color = decoded_data.get('TEAM_COLOR')
             # Change team color
             if team_color != self.match.team_color:
-                # self.match.restart(team_color)
-                self.match.team_color = team_color
-                self.match.update()
+                # self.match.team_color = team_color
+                self.match.update(team_color)
             
             if team_color == 'blue':
                 opposites_color = 'yellow'

@@ -197,6 +197,9 @@ class MainWindow(QtWidgets.QMainWindow):
         l.addLayout(buttons)
 
         # Adding fault positioning buttons
+        # buttons = QtWidgets.QHBoxLayout()
+        # self.foul_buttons(buttons)
+        # l.addLayout(buttons)
 
         # Adding the robot attributes buttons
         # buttons = QtWidgets.QHBoxLayout()
@@ -236,6 +239,32 @@ class MainWindow(QtWidgets.QMainWindow):
         b.setText("Change Side")
         b.clicked.connect(self.change_team_side)
         layout.addWidget(b)
+    
+    # def foul_buttons(self, layout):
+    #     b = InterfaceButton(100, 30)
+    #     b.setText("Free Ball")
+    #     b.clicked.connect(self.free_ball)
+    #     layout.addWidget(b)
+
+    #     b = InterfaceButton(100, 30)
+    #     b.setText("HALT")
+    #     b.clicked.connect(self.halt_game)
+    #     layout.addWidget(b)
+
+    #     b = InterfaceButton(100, 30)
+    #     b.setText("STOP")
+    #     b.clicked.connect(self.stop_game)
+    #     layout.addWidget(b)
+
+    #     b = InterfaceButton(100, 30)
+    #     b.setText("Change Color")
+    #     b.clicked.connect(self.change_team_color)
+    #     layout.addWidget(b)
+
+    #     b = InterfaceButton(100, 30)
+    #     b.setText("Change Side")
+    #     b.clicked.connect(self.change_team_side)
+    #     layout.addWidget(b)
     
     # def blue_robot_buttons(self, layout):
     #     text1 = QtWidgets.QLabel("Change blue robots ids:    ")
@@ -294,9 +323,10 @@ class MainWindow(QtWidgets.QMainWindow):
     #     layout.addWidget(b)
     
     def start_game(self):
-        status = "GAME_ON"
-        self.interface.api.send_game_status(self.interface.match, status)
-        # self.interface.match.game_status = "GAME_ON"
+        # status = "GAME_ON"
+        # self.interface.api.send_game_status(self.interface.match, status)
+        self.interface.match.game_status = "GAME_ON"
+        self.interface.api.send_data(self.interface.match)
         print("START")
     
     def halt_game(self):
@@ -305,9 +335,10 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def stop_game(self):
         # self.interface.match.game_status = "STOP"
-        status = "stop"
-        self.interface.api.send_game_status(self.interface.match, status)
-        # self.interface.match.game_status = "stop"
+        # status = "STOP"
+        # self.interface.api.send_game_status(self.interface.match, status)
+        self.interface.match.game_status = "STOP"
+        self.interface.api.send_data(self.interface.match)
         print("STOP")
     
     def change_team_color(self):
@@ -317,12 +348,16 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.interface.match.team_color = "blue"
             self.interface.match.opposite_team_color = "yellow"
+        print(self.interface.match.team_color.upper())
+        self.interface.api.send_data(self.interface.match)
     
     def change_team_side(self):
         if self.interface.match.team_side == "left":
             self.interface.match.team_side = "right"
         else:
             self.interface.match.team_side = "left"
+        print(self.interface.match.team_side.upper())
+        self.interface.api.send_data(self.interface.match)
 
     # def change_blue_ids(self):
     #     id_list = [self.blue_r0.text(),
