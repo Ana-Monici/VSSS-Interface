@@ -196,9 +196,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.game_status_buttons(buttons)
         l.addLayout(buttons)
 
+        self.canvas = Canvas(interface)
+        l.addWidget(self.canvas)
+
         # Adding fault positioning buttons
         # buttons = QtWidgets.QHBoxLayout()
         # self.foul_buttons(buttons)
+        # l.addLayout(buttons)
+
+        # Adding fault color buttons
+        # buttons = QtWidgets.QHBoxLayout()
+        # self.foul_color(buttons)
         # l.addLayout(buttons)
 
         # Adding the robot attributes buttons
@@ -209,9 +217,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.yellow_robot_buttons(buttons)
         # l.addLayout(buttons)
 
-        self.canvas = Canvas(interface)
-        l.addWidget(self.canvas)
-
         self.setCentralWidget(w)
     
     def game_status_buttons(self, layout):
@@ -221,13 +226,13 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(b)
 
         b = InterfaceButton(100, 30)
-        b.setText("HALT")
-        b.clicked.connect(self.halt_game)
-        layout.addWidget(b)
-
-        b = InterfaceButton(100, 30)
         b.setText("STOP")
         b.clicked.connect(self.stop_game)
+        layout.addWidget(b)
+        
+        b = InterfaceButton(100, 30)
+        b.setText("HALT")
+        b.clicked.connect(self.halt_game)
         layout.addWidget(b)
 
         b = InterfaceButton(100, 30)
@@ -240,31 +245,58 @@ class MainWindow(QtWidgets.QMainWindow):
         b.clicked.connect(self.change_team_side)
         layout.addWidget(b)
     
-    # def foul_buttons(self, layout):
-    #     b = InterfaceButton(100, 30)
-    #     b.setText("Free Ball")
-    #     b.clicked.connect(self.free_ball)
-    #     layout.addWidget(b)
+    def foul_buttons(self, layout):
+        b = InterfaceButton(100, 30)
+        b.setText("Kickoff")
+        b.clicked.connect(self.kickoff)
+        layout.addWidget(b)
 
-    #     b = InterfaceButton(100, 30)
-    #     b.setText("HALT")
-    #     b.clicked.connect(self.halt_game)
-    #     layout.addWidget(b)
+        b = InterfaceButton(100, 30)
+        b.setText("Free Ball")
+        b.clicked.connect(self.free_ball)
+        layout.addWidget(b)
 
-    #     b = InterfaceButton(100, 30)
-    #     b.setText("STOP")
-    #     b.clicked.connect(self.stop_game)
-    #     layout.addWidget(b)
+        b = InterfaceButton(100, 30)
+        b.setText("Goal Kick")
+        b.clicked.connect(self.goal_kick)
+        layout.addWidget(b)
 
-    #     b = InterfaceButton(100, 30)
-    #     b.setText("Change Color")
-    #     b.clicked.connect(self.change_team_color)
-    #     layout.addWidget(b)
+        b = InterfaceButton(100, 30)
+        b.setText("Penalty Kick")
+        b.clicked.connect(self.penalty_kick)
+        layout.addWidget(b)
 
-    #     b = InterfaceButton(100, 30)
-    #     b.setText("Change Side")
-    #     b.clicked.connect(self.change_team_side)
-    #     layout.addWidget(b)
+    def foul_color(self, layout):
+        b = InterfaceButton(130, 30)
+        b.setText("For team Blue")
+        b.clicked.connect(self.foul_color_blue)
+        layout.addWidget(b)
+
+        b = InterfaceButton(130, 30)
+        b.setText("For team Yellow")
+        b.clicked.connect(self.foul_color_yellow)
+        layout.addWidget(b)
+
+        # Quadrant buttons
+        b = InterfaceButton(60, 30)
+        b.setText("Q1")
+        # b.clicked.connect(self.quadrant_1)
+        layout.addWidget(b)
+
+        b = InterfaceButton(60, 30)
+        b.setText("Q2")
+        # b.clicked.connect(self.quadrant_2)
+        layout.addWidget(b)
+
+        b = InterfaceButton(60, 30)
+        b.setText("Q3")
+        # b.clicked.connect(self.quadrant_3)
+        layout.addWidget(b)
+
+        b = InterfaceButton(60, 30)
+        b.setText("Q4")
+        # b.clicked.connect(self.quadrant_4)
+        layout.addWidget(b)
     
     # def blue_robot_buttons(self, layout):
     #     text1 = QtWidgets.QLabel("Change blue robots ids:    ")
@@ -358,6 +390,36 @@ class MainWindow(QtWidgets.QMainWindow):
             self.interface.match.team_side = "left"
         print(self.interface.match.team_side.upper())
         self.interface.api.send_data(self.interface.match)
+    
+    def kickoff(self):
+        # self.interface.match.game_status = "KICKOFF"
+        # self.interface.api.send_data(self.interface.match)
+        print("KICKOFF")
+
+    def free_ball(self):
+        # self.interface.match.game_status = "FREE_BALL"
+        # self.interface.api.send_data(self.interface.match)
+        print("FREE_BALL")
+
+    def goal_kick(self):
+        # self.interface.match.game_status = "GOAL_KICK"
+        # self.interface.api.send_data(self.interface.match)
+        print("GOAL_KICK")
+
+    def penalty_kick(self):
+        # self.interface.match.game_status = "PENALTY_KICK"
+        # self.interface.api.send_data(self.interface.match)
+        print("PENALTY_KICK")
+
+    def foul_color_blue(self):
+        # self.interface.match.foul_color = "BLUE"
+        # self.interface.api.send_data(self.interface.match)
+        print("For team BLUE")
+
+    def foul_color_yellow(self):
+        # self.interface.match.foul_color = "YELLOW"
+        # self.interface.api.send_data(self.interface.match)
+        print("For team YELLOW")
 
     # def change_blue_ids(self):
     #     id_list = [self.blue_r0.text(),
