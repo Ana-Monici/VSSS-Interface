@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal
 import game
 from field_graphics.field import Field
 import math
@@ -186,6 +186,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, interface):
         super().__init__()
         self.interface = interface
+        self.setWindowTitle("Interface NeonFC")
 
         w = QtWidgets.QWidget()
         l = QtWidgets.QVBoxLayout()
@@ -199,6 +200,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.canvas = Canvas(interface)
         l.addWidget(self.canvas)
 
+        # Adding Information section
+        self.game_status = QtWidgets.QLabel()
+        self.game_status.setAlignment(Qt.AlignLeft)
+        self.game_status.setText(f"Game status = {self.interface.match.game_status}")
+        l.addWidget(self.game_status)
+        # info = QtWidgets.QHBoxLayout()
+        # self.informations(info)
+        # l.addLayout(info)
+        QTimer(self, interval = 1000/60, timeout = self.update_status)
+        
         # Adding fault positioning buttons
         # buttons = QtWidgets.QHBoxLayout()
         # self.foul_buttons(buttons)
@@ -298,6 +309,16 @@ class MainWindow(QtWidgets.QMainWindow):
         # b.clicked.connect(self.quadrant_4)
         layout.addWidget(b)
     
+    # def informations(self, layout):
+    #     line = QtWidgets.QLabel()
+    #     line.setAlignment(Qt.AlignRight)
+    #     line.setText("Game status = ")
+    #     layout.addWidget(line)
+    #     layout.addWidget(self.game_status)
+    
+    def update_status(self):
+        self.game_status.setText(f"Game status = {self.interface.match.game_status}")
+    
     # def blue_robot_buttons(self, layout):
     #     text1 = QtWidgets.QLabel("Change blue robots ids:    ")
     #     layout.addWidget(text1)
@@ -359,10 +380,12 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.interface.api.send_game_status(self.interface.match, status)
         self.interface.match.game_status = "GAME_ON"
         self.interface.api.send_data(self.interface.match)
+        self.update_status()
         print("START")
     
     def halt_game(self):
         self.interface.match.game_status = "HALT"
+        self.update_status()
         # self.interface.match.game_status = 7
     
     def stop_game(self):
@@ -371,6 +394,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.interface.api.send_game_status(self.interface.match, status)
         self.interface.match.game_status = "STOP"
         self.interface.api.send_data(self.interface.match)
+        self.update_status()
         print("STOP")
     
     def change_team_color(self):

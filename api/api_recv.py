@@ -90,6 +90,8 @@ class Api_recv(threading.Thread):
             game_status = decoded_data.get('GAME_STATUS')
             if game_status != self.match.game_status:
                 self.match.game_status = game_status
+                # update information on i_view
+                self.game.main_window.window.update_status()
 
             # Change team side
             team_side = decoded_data.get('TEAM_SIDE')

@@ -4,6 +4,7 @@ from api.api_recv import Api_recv
 import argparse
 import json
 from game import Match
+# import random
 
 # import sys
 # from PyQt5 import QtCore, QtGui, QtWidgets, uic
@@ -29,12 +30,16 @@ class Interface():
         self.match = Match(self)
 
         self.api_address = self.config.get("network").get("api_address")
+        # p1 = random.randint(1025, 99999)
         self.api_port = self.config.get("network").get("api_port")
         self.api_recv_port = self.config.get("network").get("api_recv_port")
+        # try to kill processes catch print error
 
         self.api = Api(self.api_address, self.api_port)
 
         self.api_recv = Api_recv(self, self.match, self.api_address, self.api_recv_port)
+
+        self.main_window = None
 
         self.start()
 
@@ -48,6 +53,14 @@ class Interface():
     def update(self):
         self.api.send_data(self.match)
         # self.match.update()
+    
+    def set_window(self, win):
+        self.main_window = win
+    
+    def update_window(self):
+        if self.main_window != None:
+            self.main_window.window.update_status()
+            print(";D")
 
 interface = Interface(config_file=args.config_file)
 

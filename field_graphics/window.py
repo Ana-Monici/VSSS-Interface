@@ -7,10 +7,11 @@ import threading
 class Window(threading.Thread):
     def __init__(self, interface):
         self.interface = interface
+        self.interface.set_window(self)
         self.call_window()
     
     def call_window(self):
         app = QtWidgets.QApplication(sys.argv)
-        window = MainWindow(self.interface)
-        window.show()
+        self.window = MainWindow(self.interface)
+        self.window.show()
         app.exec_()
