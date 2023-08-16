@@ -1,14 +1,8 @@
-import os
 from api.new_api import Api
 from api.api_recv import Api_recv
 import argparse
 import json
 from game import Match
-# import random
-
-# import sys
-# from PyQt5 import QtCore, QtGui, QtWidgets, uic
-# from field_graphics import MainWindow
 from field_graphics import Window
 
 parser = argparse.ArgumentParser(description='NeonInterface')
@@ -30,10 +24,8 @@ class Interface():
         self.match = Match(self)
 
         self.api_address = self.config.get("network").get("api_address")
-        # p1 = random.randint(1025, 99999)
         self.api_port = self.config.get("network").get("api_port")
         self.api_recv_port = self.config.get("network").get("api_recv_port")
-        # try to kill processes catch print error
 
         self.api = Api(self.api_address, self.api_port)
 
@@ -60,16 +52,8 @@ class Interface():
     def update_window(self):
         if self.main_window != None:
             self.main_window.window.update_status()
-            print(";D")
+            # print(";D")
 
 interface = Interface(config_file=args.config_file)
 
 window = Window(interface)
-
-# while True:
-#     interface.update()
-
-# app = QtWidgets.QApplication(sys.argv)
-# window = MainWindow(interface)
-# window.show()
-# app.exec_()

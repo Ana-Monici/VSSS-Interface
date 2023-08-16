@@ -1,4 +1,3 @@
-import sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal
 import game
@@ -386,12 +385,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def halt_game(self):
         self.interface.match.game_status = "HALT"
         self.update_status()
-        # self.interface.match.game_status = 7
+        print("HALT")
     
     def stop_game(self):
-        # self.interface.match.game_status = "STOP"
-        # status = "STOP"
-        # self.interface.api.send_game_status(self.interface.match, status)
         self.interface.match.game_status = "STOP"
         self.interface.api.send_data(self.interface.match)
         self.update_status()
